@@ -1,0 +1,257 @@
+# Installation and Configuration of Google App Engine (GAE)
+
+## Aim
+
+To install and configure Google App Engine and deploy a simple application.
+
+---
+
+# Step 1: Create a Google Cloud Account
+
+1. Open the browser.
+2. Visit:
+
+[Google Cloud Console](https://console.cloud.google.com/?utm_source=chatgpt.com)
+
+3. Sign in using your Google account.
+4. Accept terms and conditions if prompted.
+
+---
+
+# Step 2: Create a New Project
+
+1. In the top navigation bar, click **Select Project**.
+2. Click **New Project**.
+3. Enter:
+
+   * Project Name
+   * Organization (optional)
+4. Click **Create**.
+
+Example:
+
+```text
+Project Name: my-first-app-engine
+```
+
+---
+
+# Step 3: Enable App Engine
+
+1. Open your project dashboard.
+2. Navigate to:
+
+```text
+Navigation Menu → App Engine
+```
+
+3. Click **Create Application**.
+4. Select:
+
+   * Region
+   * Runtime Environment
+
+Example:
+
+```text
+Region: asia-south1
+Runtime: Java / Python / Node.js
+```
+
+5. Click **Create App**.
+
+---
+
+# Step 4: Install Google Cloud SDK
+
+Download and install Google Cloud SDK.
+
+### Official Download Page
+
+[Google Cloud SDK Download](https://cloud.google.com/sdk/docs/install?utm_source=chatgpt.com)
+
+---
+
+## For Windows
+
+1. Download installer.
+2. Run `.exe` file.
+3. Enable:
+
+   * Add gcloud to PATH
+4. Complete installation.
+
+---
+
+## Verify Installation
+
+Open terminal or command prompt and run:
+
+```bash
+gcloud --version
+```
+
+Example output:
+
+```text
+Google Cloud SDK 500.0.0
+```
+
+---
+
+# Step 5: Initialize Google Cloud SDK
+
+Run:
+
+```bash
+gcloud init
+```
+
+Then:
+
+1. Login to Google account
+2. Select cloud project
+3. Set default region/zone
+
+---
+
+# Step 6: Create a Sample App Engine Application
+
+## Create Project Folder
+
+```bash
+mkdir appengine-demo
+cd appengine-demo
+```
+
+---
+
+# Step 7: Create Application File
+
+Example using Java:
+
+## Create `HelloServlet.java`
+
+```java
+import java.io.IOException;
+import javax.servlet.http.*;
+
+public class HelloServlet extends HttpServlet {
+
+    public void doGet(HttpServletRequest req,
+                      HttpServletResponse resp)
+            throws IOException {
+
+        resp.setContentType("text/plain");
+        resp.getWriter().println("Hello Google App Engine!");
+    }
+}
+```
+
+---
+
+# Step 8: Create app.yaml File
+
+Create `app.yaml`
+
+```yaml
+runtime: java17
+entrypoint: java -jar target/app.jar
+```
+
+---
+
+# Step 9: Deploy Application
+
+Run:
+
+```bash
+gcloud app deploy
+```
+
+Press:
+
+```text
+Y
+```
+
+to confirm deployment.
+
+---
+
+# Step 10: Launch Application
+
+Run:
+
+```bash
+gcloud app browse
+```
+
+OR open:
+
+```text
+https://PROJECT_ID.appspot.com
+```
+
+---
+
+# Step 11: Verify Output
+
+Browser output:
+
+```text
+Hello Google App Engine!
+```
+
+---
+
+# GitHub Repository Structure
+
+```text
+appengine-demo/
+│
+├── src/
+│   └── HelloServlet.java
+│
+├── app.yaml
+│
+├── pom.xml
+│
+└── README.md
+```
+
+---
+
+# Commands Summary
+
+```bash
+gcloud init
+gcloud app deploy
+gcloud app browse
+```
+
+---
+
+# Advantages of Google App Engine
+
+* Fully managed platform
+* Automatic scaling
+* Easy deployment
+* Secure infrastructure
+* Supports multiple programming languages
+
+---
+
+# Applications
+
+* Web Applications
+* APIs
+* Chat Applications
+* Enterprise Systems
+* Cloud-Based Services
+
+---
+
+# Conclusion
+
+Google App Engine was successfully installed, configured, and a sample application was deployed on the cloud platform.
