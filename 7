@@ -1,0 +1,237 @@
+# Creating an Application in Salesforce using Apex Programming Language
+
+## Aim
+
+To create a simple application in Salesforce using Apex Programming Language.
+
+---
+
+# Prerequisites
+
+* Salesforce Account
+* Internet Connection
+* Web Browser
+
+---
+
+# Step 1: Create Salesforce Developer Account
+
+1. Open browser.
+2. Visit:
+
+[Salesforce Developer Signup](https://developer.salesforce.com/signup?utm_source=chatgpt.com)
+
+3. Fill in:
+
+   * Name
+   * Email
+   * Username
+   * Company Name
+
+4. Click **Sign Me Up**.
+
+5. Verify email and login.
+
+---
+
+# Step 2: Login to Salesforce
+
+Open:
+
+[Salesforce Login](https://login.salesforce.com/?utm_source=chatgpt.com)
+
+Enter:
+
+* Username
+* Password
+
+---
+
+# Step 3: Open Developer Console
+
+1. Click **Gear Icon (⚙)** at top-right.
+2. Select:
+
+```text id="m0bnn5"
+Developer Console
+```
+
+---
+
+# Step 4: Create an Apex Class
+
+1. In Developer Console:
+
+   * Click:
+
+```text id="6wrlyq"
+File → New → Apex Class
+```
+
+2. Enter class name:
+
+```text id="duzv2w"
+HelloWorld
+```
+
+3. Click **OK**.
+
+---
+
+# Step 5: Write Apex Program
+
+Replace generated code with:
+
+```java id="o5a5m0"
+public class HelloWorld {
+
+    public static void showMessage() {
+
+        System.debug('Hello from Salesforce Apex!');
+    }
+}
+```
+
+4. Save the file using:
+
+```text id="yfl0np"
+Ctrl + S
+```
+
+---
+
+# Step 6: Run Apex Program
+
+1. Open:
+
+```text id="8rjlwm"
+Debug → Open Execute Anonymous Window
+```
+
+2. Write:
+
+```java id="i7fjn7"
+HelloWorld.showMessage();
+```
+
+3. Click:
+
+```text id="bd75f1"
+Execute
+```
+
+---
+
+# Step 7: Check Output
+
+1. Open:
+
+```text id="mckqte"
+Logs Tab
+```
+
+2. Open latest log.
+
+3. Output:
+
+```text id="8k9q1s"
+Hello from Salesforce Apex!
+```
+
+---
+
+# Step 8: Create a Custom Object (Optional)
+
+1. Go to:
+
+```text id="ydn7ht"
+Setup → Object Manager
+```
+
+2. Click:
+
+```text id="9i4bme"
+Create → Custom Object
+```
+
+3. Enter:
+
+   * Label
+   * Object Name
+
+Example:
+
+```text id="t81pcx"
+Student
+```
+
+4. Save object.
+
+---
+
+# Step 9: Create Apex Trigger (Optional)
+
+## Example Trigger
+
+```java id="s6mjlwm"
+trigger StudentTrigger on Student__c (before insert) {
+
+    for(Student__c s : Trigger.new) {
+
+        s.Name = s.Name + ' Record';
+    }
+}
+```
+
+---
+
+# GitHub Repository Structure
+
+```text id="gbkwzq"
+salesforce-apex-app/
+│
+├── HelloWorld.cls
+├── StudentTrigger.trigger
+└── README.md
+```
+
+---
+
+# Sample README.md
+
+```markdown id="8zce8v"
+# Salesforce Apex Application
+
+## Features
+- Apex Class
+- Trigger Example
+- Salesforce Cloud Application
+
+## Technologies Used
+- Salesforce
+- Apex Language
+```
+
+---
+
+# Advantages of Apex
+
+* Easy cloud integration
+* Secure execution
+* Supports triggers and automation
+* Object-oriented programming
+
+---
+
+# Applications
+
+* CRM Systems
+* Workflow Automation
+* Cloud Applications
+* Enterprise Business Logic
+
+---
+
+# Conclusion
+
+A Salesforce application was successfully created using Apex Programming Language and executed using the Salesforce Developer Console.
