@@ -1,0 +1,256 @@
+# Design and Develop Custom Application (Mini Project) Using Salesforce Cloud
+
+# Title
+
+## Student Management System using Salesforce Cloud
+
+---
+
+# Aim
+
+To design and develop a custom application in Salesforce Cloud for managing student records using Salesforce Objects, Apex, and Lightning features.
+
+---
+
+# Objective
+
+* Create custom objects in Salesforce
+* Store and manage student details
+* Use Apex programming
+* Build a cloud-based application
+
+---
+
+# Software Requirements
+
+* Salesforce Developer Account
+* Web Browser
+* Internet Connection
+
+---
+
+# Step 1: Create Salesforce Developer Account
+
+1. Open:
+
+[Salesforce Developer Signup](https://developer.salesforce.com/signup?utm_source=chatgpt.com)
+
+2. Register and verify email.
+3. Login to Salesforce.
+
+---
+
+# Step 2: Create Custom Application
+
+1. Go to:
+
+```text id="u1a1ps"
+Setup → App Manager
+```
+
+2. Click:
+
+```text id="p7j36m"
+New Lightning App
+```
+
+3. Enter:
+
+   * App Name:
+
+```text id="k4j5ec"
+Student Management System
+```
+
+4. Click **Next** and finish setup.
+
+---
+
+# Step 3: Create Custom Object
+
+1. Navigate to:
+
+```text id="81m7xw"
+Setup → Object Manager → Create → Custom Object
+```
+
+2. Enter:
+
+| Field        | Value    |
+| ------------ | -------- |
+| Label        | Student  |
+| Plural Label | Students |
+| Object Name  | Student  |
+
+3. Save object.
+
+---
+
+# Step 4: Create Custom Fields
+
+Add fields inside `Student` object.
+
+| Field Name   | Data Type |
+| ------------ | --------- |
+| Student_Name | Text      |
+| Roll_Number  | Number    |
+| Department   | Text      |
+| Email        | Email     |
+| Mobile       | Phone     |
+
+---
+
+# Step 5: Create Apex Class
+
+Open Developer Console:
+
+```text id="vzt9v1"
+Gear Icon → Developer Console
+```
+
+Create Apex Class:
+
+```java id="fzzd7s"
+public class StudentController {
+
+    public static void displayMessage() {
+
+        System.debug('Student Management System Running');
+    }
+}
+```
+
+Save the file.
+
+---
+
+# Step 6: Execute Apex Code
+
+1. Open:
+
+```text id="v1cfyy"
+Debug → Open Execute Anonymous Window
+```
+
+2. Write:
+
+```java id="3i2c9o"
+StudentController.displayMessage();
+```
+
+3. Click **Execute**.
+
+---
+
+# Step 7: Create Apex Trigger
+
+Create Trigger:
+
+```java id="y9ic2k"
+trigger StudentTrigger on Student__c (before insert) {
+
+    for(Student__c s : Trigger.new) {
+
+        s.Department__c = s.Department__c.toUpperCase();
+    }
+}
+```
+
+### Purpose
+
+Automatically converts department names to uppercase before saving.
+
+---
+
+# Step 8: Add Tabs to Application
+
+1. Go to:
+
+```text id="6jz2x5"
+Setup → Tabs
+```
+
+2. Create tab for:
+
+```text id="shaf7d"
+Student Object
+```
+
+3. Add tab to application.
+
+---
+
+# Step 9: Test the Application
+
+1. Open App Launcher.
+2. Select:
+
+```text id="d82tbj"
+Student Management System
+```
+
+3. Add new student records.
+4. Verify data storage and trigger functionality.
+
+---
+
+# Sample Student Record
+
+| Student Name | Roll Number | Department |
+| ------------ | ----------- | ---------- |
+| Rahul        | 101         | COMPUTER   |
+
+---
+
+# GitHub Repository Structure
+
+```text id="m7bd7x"
+salesforce-student-management/
+│
+├── StudentController.cls
+├── StudentTrigger.trigger
+├── README.md
+└── screenshots/
+```
+
+---
+
+# Sample README.md
+
+```markdown id="elxew2"
+# Student Management System using Salesforce
+
+## Features
+- Custom Student Object
+- Apex Class
+- Apex Trigger
+- Lightning App
+
+## Technologies Used
+- Salesforce Cloud
+- Apex Programming
+```
+
+---
+
+# Advantages
+
+* Cloud-based access
+* Easy data management
+* Secure storage
+* Scalable application
+
+---
+
+# Applications
+
+* College Management Systems
+* Employee Management
+* CRM Applications
+* Online Record Systems
+
+---
+
+# Conclusion
+
+A custom cloud application named "Student Management System" was successfully designed and developed using Salesforce Cloud, Apex programming, custom objects, and triggers.
