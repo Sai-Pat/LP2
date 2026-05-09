@@ -1,0 +1,76 @@
+import java.util.*;
+
+class Node {
+    String name;
+    int heuristic;
+
+    Node(String name, int heuristic) {
+        this.name = name;
+        this.heuristic = heuristic;
+    }
+}
+
+public class AStar {
+
+    static Map<String, List<String>> graph = new HashMap<>();
+    static Map<String, Integer> cost = new HashMap<>();
+    static Map<String, Integer> heuristic = new HashMap<>();
+
+    public static void main(String[] args) {
+
+        // Graph connections
+        graph.put("A", Arrays.asList("B", "C"));
+        graph.put("B", Arrays.asList("D", "E"));
+        graph.put("C", Arrays.asList("F"));
+        graph.put("D", new ArrayList<>());
+        graph.put("E", Arrays.asList("G"));
+        graph.put("F", Arrays.asList("G"));
+        graph.put("G", new ArrayList<>());
+
+        // Heuristic values
+        heuristic.put("A", 6);
+        heuristic.put("B", 4);
+        heuristic.put("C", 4);
+        heuristic.put("D", 2);
+        heuristic.put("E", 1);
+        heuristic.put("F", 1);
+        heuristic.put("G", 0);
+
+        aStar("A", "G");
+    }
+
+    static void aStar(String start, String goal) {
+
+        PriorityQueue<String> open =
+                new PriorityQueue<>(Comparator.comparingInt(
+                        n -> cost.getOrDefault(n, 0)
+                                + heuristic.get(n)));
+
+        open.add(start);
+        cost.put(start, 0);
+
+        while (!open.isEmpty()) {
+
+            String current = open.poll();
+
+            System.out.println("Visited: " + current);
+
+            if (current.equals(goal)) {
+                System.out.println("Goal Reached!");
+                return;
+            }
+
+            for (String neighbor : graph.get(current)) {
+
+                int newCost = cost.get(current) + 1;
+
+                if (!cost.containsKey(neighbor)
+                        || newCost < cost.get(neighbor)) {
+
+                    cost.put(neighbor, newCost);
+                    open.add(neighbor);
+                }
+            }
+        }
+    }
+}
