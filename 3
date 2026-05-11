@@ -1,71 +1,342 @@
 import java.util.*;
 
-public class Dijkstra {
+// ---------------- Job Class ----------------
+class Job {
+    char id;
+    int deadline, profit;
+
+    Job(char id, int deadline, int profit) {
+        this.id = id;
+        this.deadline = deadline;
+        this.profit = profit;
+    }
+}
+
+// ---------------- Edge Class ----------------
+class Edge implements Comparable<Edge> {
+
+    int src, dest, weight;
+
+    Edge(int s, int d, int w) {
+        src = s;
+        dest = d;
+        weight = w;
+    }
+
+    public int compareTo(Edge e) {
+        return this.weight - e.weight;
+    }
+}
+
+// ---------------- Main Class ----------------
+public class GreedyAlgorithms {
 
     static final int V = 5;
 
-    // Find vertex with minimum distance
-    static int minDistance(int dist[], boolean visited[]) {
-        int min = Integer.MAX_VALUE, minIndex = -1;
+    // =====================================================
+    // 1. Selection Sort
+    // =====================================================
+
+    static void selectionSort(int arr[]) {
+
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+
+            int min = i;
+
+            for (int j = i + 1; j < n; j++) {
+
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+
+            swap(arr, i, min);
+        }
+
+        System.out.println("Selection Sort:");
+
+        printArray(arr);
+    }
+
+    static void swap(int arr[], int i, int j) {
+
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    static void printArray(int arr[]) {
+
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+
+        System.out.println();
+    }
+
+    // =====================================================
+    // 2. Prim's MST
+    // =====================================================
+
+    static int minKey(int key[], boolean mstSet[]) {
+
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
 
         for (int v = 0; v < V; v++) {
+
+            if (!mstSet[v] && key[v] < min) {
+                min = key[v];
+                minIndex = v;
+            }
+        }
+
+        return minIndex;
+    }
+
+    static void primMST(int graph[][]) {
+
+        int parent[] = new int[V];
+        int key[] = new int[V];
+        boolean mstSet[] = new boolean[V];
+
+        Arrays.fill(key, Integer.MAX_VALUE);
+
+        key[0] = 0;
+        parent[0] = -1;
+
+        for (int count = 0; count < V - 1; count++) {
+
+            int u = minKey(key, mstSet);
+
+            mstSet[u] = true;
+
+            for (int v = 0; v < V; v++) {
+
+                if (graph[u][v] != 0 &&
+                    !mstSet[v] &&
+                    graph[u][v] < key[v]) {
+
+                    parent[v] = u;
+                    key[v] = graph[u][v];
+                }
+            }
+        }
+
+        System.out.println("\nPrim's MST:");
+
+        for (int i = 1; i < V; i++) {
+            System.out.println(parent[i] +
+                               " - " +
+                               i +
+                               " : " +
+                               graph[i][parent[i]]);
+        }
+    }
+
+    // =====================================================
+    // 3. Dijkstra Algorithm
+    // =====================================================
+
+    static int minDistance(int dist[], boolean visited[]) {
+
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
+
+        for (int v = 0; v < V; v++) {
+
             if (!visited[v] && dist[v] < min) {
                 min = dist[v];
                 minIndex = v;
             }
         }
+
         return minIndex;
     }
 
-    // Dijkstra Algorithm
     static void dijkstra(int graph[][], int src) {
 
         int dist[] = new int[V];
         boolean visited[] = new boolean[V];
 
-        // Initialize distances
-        for (int i = 0; i < V; i++) {
-            dist[i] = Integer.MAX_VALUE;
-        }
+        Arrays.fill(dist, Integer.MAX_VALUE);
 
         dist[src] = 0;
 
-        // Find shortest path
         for (int count = 0; count < V - 1; count++) {
 
             int u = minDistance(dist, visited);
+
             visited[u] = true;
 
             for (int v = 0; v < V; v++) {
 
-                if (!visited[v]
-                        && graph[u][v] != 0
-                        && dist[u] != Integer.MAX_VALUE
-                        && dist[u] + graph[u][v] < dist[v]) {
+                if (!visited[v] &&
+                    graph[u][v] != 0 &&
+                    dist[u] != Integer.MAX_VALUE &&
+                    dist[u] + graph[u][v] < dist[v]) {
 
                     dist[v] = dist[u] + graph[u][v];
                 }
             }
         }
 
-        // Print result
-        System.out.println("Vertex \t Distance from Source");
+        System.out.println("\nDijkstra Shortest Path:");
 
         for (int i = 0; i < V; i++) {
-            System.out.println(i + " \t\t " + dist[i]);
+            System.out.println("0 to " + i + " = " + dist[i]);
         }
     }
 
+    // =====================================================
+    // 4. Job Scheduling
+    // =====================================================
+
+    static void jobScheduling(Job jobs[], int n) {
+
+        Arrays.sort(jobs,
+            Comparator.comparingInt((Job j) -> j.profit).reversed());
+
+        boolean slot[] = new boolean[n];
+        char result[] = new char[n];
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = Math.min(n, jobs[i].deadline) - 1;
+                 j >= 0;
+                 j--) {
+
+                if (!slot[j]) {
+
+                    slot[j] = true;
+                    result[j] = jobs[i].id;
+                    break;
+                }
+            }
+        }
+
+        System.out.println("\nJob Scheduling:");
+
+        for (char c : result) {
+
+            if (c != 0)
+                System.out.print(c + " ");
+        }
+
+        System.out.println();
+    }
+
+    // =====================================================
+    // 5. Kruskal MST
+    // =====================================================
+
+    static int parent[] = new int[V];
+
+    static int find(int i) {
+
+        while (parent[i] != i)
+            i = parent[i];
+
+        return i;
+    }
+
+    static void union(int x, int y) {
+
+        int xset = find(x);
+        int yset = find(y);
+
+        parent[xset] = yset;
+    }
+
+    static void kruskalMST(Edge edges[]) {
+
+        Arrays.sort(edges);
+
+        for (int i = 0; i < V; i++) {
+            parent[i] = i;
+        }
+
+        System.out.println("\nKruskal MST:");
+
+        int count = 0;
+        int i = 0;
+
+        while (count < V - 1) {
+
+            Edge next = edges[i++];
+
+            int x = find(next.src);
+            int y = find(next.dest);
+
+            if (x != y) {
+
+                System.out.println(next.src +
+                                   " - " +
+                                   next.dest +
+                                   " : " +
+                                   next.weight);
+
+                union(x, y);
+
+                count++;
+            }
+        }
+    }
+
+    // =====================================================
+    // MAIN METHOD
+    // =====================================================
+
     public static void main(String[] args) {
 
+        // ---------------- Selection Sort ----------------
+
+        int arr[] = {64, 25, 12, 22, 11};
+
+        selectionSort(arr);
+
+        // ---------------- Graph ----------------
+
         int graph[][] = {
-                {0, 10, 0, 30, 100},
-                {10, 0, 50, 0, 0},
-                {0, 50, 0, 20, 10},
-                {30, 0, 20, 0, 60},
-                {100, 0, 10, 60, 0}
+            {0,2,0,6,0},
+            {2,0,3,8,5},
+            {0,3,0,0,7},
+            {6,8,0,0,9},
+            {0,5,7,9,0}
         };
 
+        // ---------------- Prim ----------------
+
+        primMST(graph);
+
+        // ---------------- Dijkstra ----------------
+
         dijkstra(graph, 0);
+
+        // ---------------- Job Scheduling ----------------
+
+        Job jobs[] = {
+            new Job('A', 2, 100),
+            new Job('B', 1, 19),
+            new Job('C', 2, 27),
+            new Job('D', 1, 25),
+            new Job('E', 3, 15)
+        };
+
+        jobScheduling(jobs, jobs.length);
+
+        // ---------------- Kruskal ----------------
+
+        Edge edges[] = {
+            new Edge(0,1,10),
+            new Edge(0,2,6),
+            new Edge(0,3,5),
+            new Edge(1,3,15),
+            new Edge(2,3,4)
+        };
+
+        kruskalMST(edges);
     }
 }
