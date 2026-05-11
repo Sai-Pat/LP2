@@ -1,57 +1,82 @@
-public class NQueen {
+public class NQueens {
 
     static int N = 4;
-    static int board[][] = new int[N][N];
 
-    static boolean isSafe(int r, int c) {
+    // Function to check if queen can be placed safely
+    static boolean isSafe(int board[][], int row, int col) {
 
-        for (int i = 0; i < c; i++)
-            if (board[r][i] == 1)
+        // Check left side of row
+        for (int i = 0; i < col; i++) {
+            if (board[row][i] == 1)
                 return false;
+        }
 
-        for (int i = r, j = c; i >= 0 && j >= 0; i--, j--)
+        // Check upper diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
             if (board[i][j] == 1)
                 return false;
+        }
 
-        for (int i = r, j = c; i < N && j >= 0; i++, j--)
+        // Check lower diagonal
+        for (int i = row, j = col; i < N && j >= 0; i++, j--) {
             if (board[i][j] == 1)
                 return false;
+        }
 
         return true;
     }
 
-    static boolean solve(int col) {
+    // Backtracking function
+    static boolean solveNQ(int board[][], int col) {
 
-        if (col == N)
+        // All queens placed
+        if (col >= N)
             return true;
 
+        // Try each row
         for (int i = 0; i < N; i++) {
 
-            if (isSafe(i, col)) {
+            // Check if safe
+            if (isSafe(board, i, col)) {
 
+                // Place queen
                 board[i][col] = 1;
 
-                if (solve(col + 1))
+                // Recur for next column
+                if (solveNQ(board, col + 1))
                     return true;
 
-                board[i][col] = 0; // backtrack
+                // BACKTRACK
+                board[i][col] = 0;
             }
         }
 
         return false;
     }
 
+    // Print solution
+    static void printBoard(int board[][]) {
+
+        for (int i = 0; i < N; i++) {
+
+            for (int j = 0; j < N; j++) {
+
+                System.out.print(board[i][j] + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
 
-        if (solve(0)) {
+        int board[][] = new int[N][N];
 
-            for (int[] row : board) {
+        if (solveNQ(board, 0)) {
 
-                for (int x : row)
-                    System.out.print(x + " ");
+            System.out.println("Solution Exists:");
 
-                System.out.println();
-            }
+            printBoard(board);
 
         } else {
 
