@@ -1,81 +1,61 @@
-public class GraphColoring {
+public class NQueen {
 
-    static int V = 4; // Number of vertices
+    static int N = 4;
+    static int board[][] = new int[N][N];
 
-    // Check if current color is safe
-    static boolean isSafe(int v, int graph[][],
-                          int color[], int c) {
+    static boolean isSafe(int r, int c) {
 
-        for (int i = 0; i < V; i++) {
-
-            if (graph[v][i] == 1 && color[i] == c)
+        for (int i = 0; i < c; i++)
+            if (board[r][i] == 1)
                 return false;
-        }
+
+        for (int i = r, j = c; i >= 0 && j >= 0; i--, j--)
+            if (board[i][j] == 1)
+                return false;
+
+        for (int i = r, j = c; i < N && j >= 0; i++, j--)
+            if (board[i][j] == 1)
+                return false;
 
         return true;
     }
 
-    // Backtracking function
-    static boolean graphColoringUtil(int graph[][],
-                                     int m,
-                                     int color[],
-                                     int v) {
+    static boolean solve(int col) {
 
-        // All vertices colored
-        if (v == V)
+        if (col == N)
             return true;
 
-        // Try different colors
-        for (int c = 1; c <= m; c++) {
+        for (int i = 0; i < N; i++) {
 
-            if (isSafe(v, graph, color, c)) {
+            if (isSafe(i, col)) {
 
-                color[v] = c;
+                board[i][col] = 1;
 
-                // Recur for next vertex
-                if (graphColoringUtil(graph, m,
-                                      color, v + 1))
+                if (solve(col + 1))
                     return true;
 
-                // BACKTRACK
-                color[v] = 0;
+                board[i][col] = 0; // backtrack
             }
         }
 
         return false;
     }
 
-    // Print solution
-    static void printSolution(int color[]) {
-
-        System.out.println("Assigned Colors:");
-
-        for (int i = 0; i < V; i++) {
-            System.out.println("Vertex " + i +
-                               " ---> Color " + color[i]);
-        }
-    }
-
     public static void main(String[] args) {
 
-        int graph[][] = {
-                {0, 1, 1, 1},
-                {1, 0, 1, 0},
-                {1, 1, 0, 1},
-                {1, 0, 1, 0}
-        };
+        if (solve(0)) {
 
-        int m = 3; // Number of colors
-        int color[] = new int[V];
+            for (int[] row : board) {
 
-        if (graphColoringUtil(graph, m,
-                              color, 0)) {
+                for (int x : row)
+                    System.out.print(x + " ");
 
-            printSolution(color);
+                System.out.println();
+            }
 
         } else {
 
-            System.out.println("Solution does not exist");
+            System.out.println("No Solution");
         }
     }
 }
